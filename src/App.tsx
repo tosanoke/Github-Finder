@@ -6,9 +6,7 @@ import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 
 
-function App() {
-  
-
+function App() { 
   return (
       <Router>
         <div className="flex flex-col justify-between h-screen">
