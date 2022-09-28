@@ -12,6 +12,7 @@ export const Users = () => {
       `${import.meta.env.VITE_API_URL}/users`);
       setUsers(response.data);
       setIsLoading(false)
+      console.log(response.data);
   };
  
   useEffect(() => {
