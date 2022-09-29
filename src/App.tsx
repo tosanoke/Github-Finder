@@ -1,6 +1,7 @@
 import {BrowserRouter as Router,  Routes, Route } from "react-router-dom";
 import { Footer } from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
+import { GithubProvider } from "./context/githubContext/GithubContext";
 import { About } from "./pages/About";
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
@@ -8,6 +9,7 @@ import { NotFound } from "./pages/NotFound";
 
 function App() { 
   return (
+    <GithubProvider>
       <Router>
         <div className="flex flex-col justify-between h-screen">
           <Navbar />  
@@ -22,6 +24,7 @@ function App() {
           <Footer />
         </div> 
       </Router>  
+  </GithubProvider>
   )
 }
 
