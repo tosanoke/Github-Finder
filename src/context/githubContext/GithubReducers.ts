@@ -16,6 +16,8 @@ export const GithubReducers = (state: IState, { type, payload }: IAction) => {
                 return { ...state, users: payload, isLoading: false};
             case 'SET_LOADING':
                 return { ...state, isLoading: true}
+            case 'CLEAR_USERS':
+                return {...state, users: payload, isLoading: false};
             default:
                 return state;
         }

@@ -6,7 +6,8 @@ import { GithubReducers } from './GithubReducers'
 interface ContextProps {
   users: UserProps[];
   isLoading: boolean;
-  userApiRequest: () => void;
+  userApiRequest: (text: string) =>void;
+  clearUsers: () => void;
 }
 
 type Props = {
@@ -25,23 +26,33 @@ export const GithubProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(GithubReducers, initialState)
   const {users, isLoading} = state;
 
-  const userApiRequest = async () => {
+
+  const userApiRequest = async (text: string) => {
     dispatch({
       type: 'SET_LOADING',
       payload: []
     })
+    const params = new URLSearchParams({
+        q: text,
+      })
     const response: RequestResponse = await axiosPrivate.get(
-      `${GITHUB_URL}/users`
+      `${GITHUB_URL}/search/users?${params}`
     );
-    const data = response.data;
+    const data = response.data.items;
     dispatch({
       type: 'GET_USERS',
       payload: data
     })
-  };
+
+  }
+
+  const clearUsers = () => dispatch({
+    type: 'CLEAR_USERS',
+    payload: []
+  })
 
   return (
-    <GithubContext.Provider value={{ users, isLoading, userApiRequest }}>
+    <GithubContext.Provider value={{ users, isLoading, userApiRequest, clearUsers }}>
       {children}
     </GithubContext.Provider>
   );
