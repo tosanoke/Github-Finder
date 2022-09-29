@@ -1,14 +1,10 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import GithubContext from "../../context/githubContext/GithubContext";
 import { Spinner } from "../layout/Spinner";
 import { UserItem } from "./UserItem";
 
 export const Users = () => {
-  const { users, isLoading, userApiRequest } = useContext(GithubContext);
-
-  useEffect(() => {
-    userApiRequest();
-  }, []);
+  const { users, isLoading } = useContext(GithubContext);
 
   return (
     <>

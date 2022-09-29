@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
 import { RequestResponse, UserProps } from "../../types";
 import { axiosPrivate } from "../../network/axios.config";
+import { GithubReducers } from './GithubReducers'
 
 interface ContextProps {
   users: UserProps[];
@@ -15,16 +16,28 @@ type Props = {
 const GithubContext = createContext<ContextProps>({} as ContextProps);
 const GITHUB_URL = import.meta.env.VITE_API_URL;
 
+const initialState = {
+    users: [],
+    isLoading: false,
+}
+
 export const GithubProvider: React.FC<Props> = ({ children }) => {
-  const [users, setUsers] = useState<UserProps[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [state, dispatch] = useReducer(GithubReducers, initialState)
+  const {users, isLoading} = state;
 
   const userApiRequest = async () => {
+    dispatch({
+      type: 'SET_LOADING',
+      payload: []
+    })
     const response: RequestResponse = await axiosPrivate.get(
       `${GITHUB_URL}/users`
     );
-    setUsers(response.data);
-    setIsLoading(false);
+    const data = response.data;
+    dispatch({
+      type: 'GET_USERS',
+      payload: data
+    })
   };
 
   return (
